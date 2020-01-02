@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>分页</title>
+    <style>
+    .d1{
+        float:left;
+        width:500px;
+        height:450px;
+    }
+    </style>
+</head>
+<body>
+    <div class="d1">
+    {% for book in books %}
+        id:{{ book.id }}<br>
+        书名:{{ book.name }}<br>
+        价格:{{ book.price }}<br><br>
+    {% endfor %}
+
+    <hr>
+
+    <a href="{{ url_for('pages') }}">第一页</a>
+
+
+    {% if pagination.has_prev %}
+        <a href="{{ url_for('pages') }}?page={{ pagination.prev_num }}">上一页</a>
+    {% else %}
+        <a href="#">上一页</a>
+    {% endif %}
+
+    <!--------------页码列表--------------------->
+    {% for page in pagination.iter_pages() %}
+        {% if page %}
+            {% if page != pagination.page %}
+                <a href="{{ url_for('pages') }}?page={{ page }}">{{ page }}</a>
+            {% else %}
+                <a href="#">{{ page }}</a>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+　　
+    {% if pagination.has_next %}
+        <a href="{{ url_for('pages') }}?page={{ pagination.next_num }}">下一页</a>
+    {% else %}
+        <a href="#">上一页</a>
+    {% endif %}
+
+    <a href="{{ url_for('pages') }}?page={{ pagination.pages }}">最后一页</a>
+
+    <hr>
+
+        当前页面  {{ pagination.page }}
+        总页数   {{ pagination.pages }}
+        总数据   {{ pagination.total }}
+    </div>
+</body>
+</html>
